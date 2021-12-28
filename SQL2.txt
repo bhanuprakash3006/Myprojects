@@ -1,0 +1,49 @@
+1Q.
+ SELECT * FROM facilities;
+2Q.
+SELECT name, membercost FROM facilities;
+3Q.
+SELECT * FROM facilities WHERE (membercost > 0);
+4Q.
+SELECT facid,name,membercost,monthlymaintenance FROM facilities WHERE (membercost > 0) AND (membercost * 50) < monthlymaintenance;
+5Q.
+SELECT * FROM facilities WHERE name LIKE '%Tennis%';
+6Q.
+SELECT * FROM facilities WHERE facid=1 ||facid=5;
+WITHOUT USING OR OPERATOR 
+SELECT * FROM facilities WHERE facid!=0 AND facid!=2 AND facid!=3 AND facid!=4 AND facid!=6 AND facid!=7 AND facid!=8;
+7Q.
+SELECT memid,surname,firstname,joindate FROM members WHERE DATE(joindate) > DATE('2012-08-31');
+8Q.
+SELECT DISTINCT surname FROM members ORDER BY surname LIMIT 10;
+9Q.
+SELECT joindate FROM members ORDER BY joindate DESC LIMIT 1;
+10Q.
+SELECT COUNT(name) FROM facilities WHERE (guestcost >=10);
+11Q.
+SELECT facid,SUM(slots) totalslots FROM bookings WHERE((DATE(starttime) > DATE('2012-08-31')) AND (DATE(starttime) < DATE('2012-10-01'))) GROUP BY facid ORDER BY SUM(slots);
+12Q.
+SELECT facid,SUM(slots) totalslots FROM bookings WHERE 1000 < (SELECT SUM(slots) FROM bookings) GROUP BY facid ORDER BY SUM(slots) DESC;
+13Q.
+SELECT name,starttime FROM bookings JOIN facilities using(facid) WHERE starttime BETWEEN '2012-09-21 00:00:01' AND '2012-09-21 23:59:59' ORDER BY starttime; 
+14Q.
+SELECT COUNT(starttime) FROM members JOIN bookings using(memid) WHERE surname='Farrell' AND firstname='David';
+
+
+
+SQL DATABASE
+
+CREATE DATABASE School;
+
+CREATE TABLE teachers(teacher_id int,first_name varchar(100),last_name varchar(100),homeroom_number int,department varchar(100),email varchar(100),phone varchar(30));
+ALTER TABLE `teachers` ADD PRIMARY KEY(`teacher_id`);
+ALTER TABLE `teachers` ADD UNIQUE(`phone`);
+ALTER TABLE `teachers` ADD UNIQUE(`email`);
+
+CREATE TABLE students(student_id int,first_name varchar(100),last_name varchar(100),homeroom_number int,email varchar(100),phone varchar(30),graduation_year int);
+ALTER TABLE `students` ADD PRIMARY KEY(`student_id`);
+ALTER TABLE `students` ADD UNIQUE(`email`);
+ALTER TABLE `students` ADD UNIQUE(`phone`);
+
+INSERT INTO `students`(`student_id`, `first_name`, `last_name`, `homeroom_number`, `email`, `phone`, `graduation_year`) VALUES ('1','Mark','Watney','5','','777-555-1234','2035');
+INSERT INTO `teachers`(`teacher_id`, `first_name`, `last_name`, `homeroom_number`, `department`, `email`, `phone`) VALUES ('1','Jonas','Salk','5','Biology','jsalk@school.org','777-555-4321');
